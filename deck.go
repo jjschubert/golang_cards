@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"io/ioutil"
+	"strings"
+)
 
 //create a new type of 'deck'
 //which is a slice of type string
@@ -40,4 +44,16 @@ func (d deck) print() {
 //(deck, deck) days that we will return two values, both type deck
 func deal(d deck, handSize int) (deck, deck) {
 	return d[:handSize], d[handSize:]
+}
+
+//uses strings package
+//first arg is type conversion, second is separator
+func (d deck) toString() string {
+	return strings.Join([]string(d), ",")
+}
+
+//0666 is a common permissions
+//returning result of function will let us see error if there is one
+func (d deck) saveToFile(filename string) error {
+	return ioutil.WriteFile(filename, []byte(d.toString()), 0666)
 }
